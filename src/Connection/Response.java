@@ -1,5 +1,6 @@
 package Connection;
 
+import App.Logic.Action;
 import Utils.ExceptionHandler;
 import Utils.Pair;
 import org.json.JSONArray;
@@ -71,6 +72,7 @@ public class Response
         {
             try
             {
+                System.out.println(json.get(key));
                 result.put(key, json.get(key));
             }
             catch (Exception ex)
@@ -107,4 +109,9 @@ public class Response
         }*/
         return result;
     }
+
+    public Action getAction() {
+        return null;//TODO
+    }
+
 }

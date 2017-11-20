@@ -9,7 +9,11 @@ import java.net.URL;
 public class ConnectionHandler
 {
 
-    public static Response sendRequest(URL url, String method)
+    synchronized public static Response sendRequest(Request request) {
+        return null;//TODO
+    }
+
+    synchronized public static Response sendRequest(URL url, String method)
     {
         Response res = new Response();
 
