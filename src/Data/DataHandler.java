@@ -1,6 +1,7 @@
 package Data;
 
 import Connection.ConnectionHandler;
+import Connection.Request;
 import Connection.Response;
 import Utils.ExceptionHandler;
 
@@ -15,10 +16,10 @@ public class DataHandler {
 
     public void getHash(File file) {
         try {
-            URL url = new URL(getFileHashUrl);
-            Response response = ConnectionHandler.sendRequest(url, "POST");
+            //URL url = new URL(getFileHashUrl);
+            Response response = ConnectionHandler.sendRequest(new Request("POST", getFileHashUrl, null, null));
             System.out.println("getHash response:");
-            System.out.println(response.getContent());
+            //System.out.println(response.getContent());
         } catch (Exception ex) {
             ExceptionHandler.handleException(ex);
         }
@@ -26,10 +27,10 @@ public class DataHandler {
 
     public void storeFile(File file) {
         try {
-            URL url = new URL(storeFileUrl);
-            Response response = ConnectionHandler.sendRequest(url, "POST");
+            //URL url = new URL(storeFileUrl);
+            Response response = ConnectionHandler.sendRequest(new Request("POST", storeFileUrl, null, null));
             System.out.println("storeFile response:");
-            System.out.println(response.getContent());
+            //System.out.println(response.getContent());
         } catch (Exception ex) {
             ExceptionHandler.handleException(ex);
         }

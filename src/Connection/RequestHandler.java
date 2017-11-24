@@ -1,20 +1,26 @@
 package Connection;
 
+import Utils.UrlHelper;
+
 public class RequestHandler {
 
+    synchronized public static Request getGenerateNodeRequest() {
+        return new Request("GET", UrlHelper.generateNodeUrl, null, null);
+    }
+
     synchronized public static Request getSaveRequest(String fileContent) {
-        return new Request();//TODO
+        return null;//new Request("");//TODO
     }
 
     synchronized public static Request getShareRequest(String recipients) {
-        return new Request();//TODO
+        return null;//new Request();//TODO
     }
 
     synchronized public static Request getModifyRequest(String fileContent) {
-        return new Request();//TODO
+        return null;//new Request();//TODO
     }
 
     synchronized public static Request getHashRequest() {
-        return new Request();//TODO
+        return null;//new Request();//TODO
     }
 }

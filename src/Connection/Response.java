@@ -2,116 +2,64 @@ package Connection;
 
 import App.Logic.Action;
 import Utils.ExceptionHandler;
-import Utils.Pair;
-import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
 import java.util.HashMap;
-import java.util.List;
+import java.util.Map;
 
 
-public class Response
-{
+public class Response {
+    private int code;
+    private JSONObject body;
 
-    //public enum JsonObjType { STRING, INT, LIST, DICT};
+    public Response(int code, String body) {
+        this.code = code;
 
-    private JSONObject content;
-
-    private String readContent(HttpURLConnection con)
-    {
-        StringBuilder content = new StringBuilder();
-
-        try (BufferedReader in = new BufferedReader(
-                new InputStreamReader(con.getInputStream())))
-        {
-            String line;
-            content = new StringBuilder();
-            while ((line = in.readLine()) != null)
-            {
-                content.append(line);
-            }
-        }
-        catch (Exception ex)
-        {
-            ExceptionHandler.handleException(ex);
-        }
-
-        return content.toString();
-    }
-
-    public Response()
-    {
-        this.content = null;
-    }
-
-    public Response(HttpURLConnection conn)
-    {
-        try
-        {
-            this.content = new JSONObject(this.readContent(conn));
-        }
-        catch (Exception ex)
-        {
+        try {
+            this.body = new JSONObject(body);
+        } catch (Exception ex) {
             ExceptionHandler.handleException(ex);
         }
     }
 
-    public JSONObject getContent() {
-        return this.content;
+    public HashMap<String, Object> getContent(HashMap<String, Object> keys) {
+        return Response.parse(this.body, keys, null);
     }
 
-    public static HashMap<String, Object> parseContent(JSONObject json, List<String> keys) //TODO
-    {
+    synchronized public static HashMap<String, Object> parse(JSONObject json, HashMap<String, Object> jKeys, String prefix) {
         HashMap<String, Object> result = new HashMap<>();
-        System.out.println(json);
-        System.out.println(json.length());
-        for (String key: keys)
-        {
-            try
-            {
-                System.out.println(json.get(key));
-                result.put(key, json.get(key));
+
+        for (Map.Entry<String, Object> k : jKeys.entrySet()) {
+            String key = k.getKey();
+            Object obj = k.getValue();
+
+            try {
+                Object o = json.get(key);
+                if (prefix != null) key = prefix + key;
+                result.put(key, o);
+
+                if (obj != null) {
+                    HashMap<String, Object> recJKeys = (HashMap) obj;
+                    HashMap<String, Object> partRes = Response.parse((JSONObject) o, recJKeys, key);
+                    for (Map.Entry<String, Object> r : partRes.entrySet()) {
+                        result.put(r.getKey(), r.getValue());
+                    }
+                }
             }
-            catch (Exception ex)
-            {
+            catch (Exception ex) {
                 ExceptionHandler.handleException(ex);
             }
         }
-    /*    for (int i = 0; i < this.content.length(); ++i)
-        {
-            try
-            {
-                JSONObject obj = this.content.getJSONObject(i);
-                System.out.println(obj.toString());
-            }
-            catch (Exception ex)
-            {
-                ExceptionHandler.handleException(ex);
-            }
-        }
-        return null;
 
-        for (Utils.Pair<String, JsonObjType> key: keys)
-        {
-            try
-            {
-
-                //result.put(key, this.content);
-
-            }
-            catch (Exception ex)
-            {
-                Utils.ExceptionHandler.handleException(ex);
-            }
-        }*/
         return result;
     }
 
-    public Action getAction() {
-        return null;//TODO
+    public int getCode() {
+        return this.code;
     }
 
+    public Action getAction() {
+        //TODO
+        return null;
+    }
 }

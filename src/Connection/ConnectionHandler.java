@@ -2,29 +2,37 @@ package Connection;
 
 import Utils.ExceptionHandler;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.URL;
 
 
 public class ConnectionHandler
 {
 
     synchronized public static Response sendRequest(Request request) {
-        return null;//TODO
-    }
+        Response res = null;
 
-    synchronized public static Response sendRequest(URL url, String method)
-    {
-        Response res = new Response();
+        try { // TODO: handle headers & body
+            HttpURLConnection con = (HttpURLConnection) request.getUrl().openConnection();
+            con.setRequestMethod(request.getMethod());
+            StringBuilder content = new StringBuilder();
 
-        try
-        {
-            HttpURLConnection con = (HttpURLConnection) url.openConnection();
-            con.setRequestMethod(method);
-            res = new Response(con);
+            try (BufferedReader in = new BufferedReader(
+                    new InputStreamReader(con.getInputStream()))) {
+                String line;
+                content = new StringBuilder();
+                while ((line = in.readLine()) != null) {
+                    content.append(line);
+                }
+            }
+            catch (Exception ex) {
+                ExceptionHandler.handleException(ex);
+            }
+
+            res = new Response(con.getResponseCode(), content.toString());
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             ExceptionHandler.handleException(ex);
         }
 
