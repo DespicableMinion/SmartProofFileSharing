@@ -1,14 +1,9 @@
 package Data;
 
 import Connection.ConnectionHandler;
-import Connection.Request;
-import Connection.Response;
+import Connection.Request.Request;
+import Connection.Response.Response;
 import Utils.ExceptionHandler;
-
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 
 public class DataHandler {
     private String getFileHashUrl = "http://p2ptest1.smartproof.io:8082/sp/datahash/byte-array/hashonly";

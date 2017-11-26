@@ -1,8 +1,8 @@
 package App.Logic;
 
 import Connection.ConnectionHandler;
-import Connection.RequestHandler;
-import Connection.Response;
+import Connection.Request.RequestHandler;
+import Connection.Response.Response;
 import Utils.ExceptionHandler;
 
 import java.awt.*;

@@ -1,5 +1,6 @@
-package Connection;
+package Connection.Request;
 
+import Connection.Request.Request;
 import Utils.UrlHelper;
 
 public class RequestHandler {

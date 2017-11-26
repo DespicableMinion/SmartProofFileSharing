@@ -1,5 +1,7 @@
 package Connection;
 
+import Connection.Request.Request;
+import Connection.Response.Response;
 import Utils.ExceptionHandler;
 
 import java.io.BufferedReader;

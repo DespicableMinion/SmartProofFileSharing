@@ -1,4 +1,4 @@
-package Connection;
+package Connection.Response;
 
 import App.Logic.Action;
 import Utils.ExceptionHandler;
@@ -22,28 +22,29 @@ public class Response {
         }
     }
 
-    public HashMap<String, Object> getContent(HashMap<String, Object> keys) {
-        return Response.parse(this.body, keys, null);
+    public HashMap<String, Object> getContent(KeysHolder keysHolder) {
+        return this.parse(this.body, keysHolder.getKeysMap(), "");
     }
 
-    synchronized public static HashMap<String, Object> parse(JSONObject json, HashMap<String, Object> jKeys, String prefix) {
+    private HashMap<String, Object> parse(JSONObject json, HashMap<String, KeysHolder> jKeys, String prefix) {
         HashMap<String, Object> result = new HashMap<>();
 
-        for (Map.Entry<String, Object> k : jKeys.entrySet()) {
+        for (Map.Entry<String, KeysHolder> k : jKeys.entrySet()) {
             String key = k.getKey();
-            Object obj = k.getValue();
+            KeysHolder keysHolder = k.getValue();
 
             try {
-                Object o = json.get(key);
-                if (prefix != null) key = prefix + key;
-                result.put(key, o);
+                Object obj = json.get(key);
 
-                if (obj != null) {
-                    HashMap<String, Object> recJKeys = (HashMap) obj;
-                    HashMap<String, Object> partRes = Response.parse((JSONObject) o, recJKeys, key);
+                if (keysHolder != null) {
+                    HashMap<String, KeysHolder> recJKeys = keysHolder.getKeysMap();
+                    HashMap<String, Object> partRes = this.parse((JSONObject) obj, recJKeys, key + "_");
                     for (Map.Entry<String, Object> r : partRes.entrySet()) {
                         result.put(r.getKey(), r.getValue());
                     }
+                } else {
+                    key = prefix + key;
+                    result.put(key, obj);
                 }
             }
             catch (Exception ex) {

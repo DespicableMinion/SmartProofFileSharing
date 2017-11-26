@@ -1,4 +1,4 @@
-package Connection;
+package Connection.Request;
 
 import Utils.ExceptionHandler;
 
