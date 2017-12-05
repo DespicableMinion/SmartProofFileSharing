@@ -45,15 +45,12 @@ public class AppWindow extends JFrame implements ActionListener {
     @Override
     public void setDefaultCloseOperation(int operation) { }
 
-    private JTextField createMessageField() {
-        JTextField message = new JTextField();
+    public synchronized String getTextFieldContent() {
+        return this.textField.getText();
+    }
 
-        message.setPreferredSize(new Dimension(600, 600));
-        message.addActionListener(e -> {
-
-        });
-
-        return message;
+    public synchronized void updateTextFieldContent() {
+        //TODOthis.textField.se
     }
 
     private JPanel createChoicePanel() {
@@ -98,13 +95,18 @@ public class AppWindow extends JFrame implements ActionListener {
         return panel;
     }
 
-    JPanel createTextPanel() {
-        JPanel panel = new JPanel(new BorderLayout());
+    private JPanel createTextPanel() {
+        JPanel textPanel = new JPanel(new BorderLayout());
+        this.textField = new JTextField();
 
-        this.textField = this.createMessageField();
-        panel.add(new JScrollPane(this.textField), BorderLayout.CENTER);
+        textField.setPreferredSize(new Dimension(600, 600));
+        textField.addActionListener(e -> {
 
-        return panel;
+        });
+
+        textPanel.add(new JScrollPane(this.textField), BorderLayout.CENTER);
+
+        return textPanel;
     }
 
     private JPanel createMainPanel() {
@@ -116,10 +118,6 @@ public class AppWindow extends JFrame implements ActionListener {
         mainPanel.add(right, BorderLayout.EAST);
 
         return mainPanel;
-    }
-
-     private String getTextFieldContent() {
-        return this.textField.getText();
     }
 
     private void handleActionResult(Boolean result, String action) {

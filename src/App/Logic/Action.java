@@ -3,6 +3,10 @@ package App.Logic;
 import java.io.Serializable;
 
 
+/**
+ * Represents action taken on a file.
+ * Objects of this class serve in a communication process between GUI and server/client.
+ * */
 public class Action implements Serializable {
     protected static final long serialVersionUID = 1112122200L;
 

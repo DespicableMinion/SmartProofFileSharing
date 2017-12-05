@@ -1,7 +1,7 @@
 import Account.Node;
+import App.GUI.LoginWindow;
 import App.Logic.Server;
 import Data.DataHandler;
-import Data.File;
 import Utils.ExceptionHandler;
 
 import java.net.InetAddress;
@@ -13,7 +13,7 @@ public class Main
 
     public static void main(String[] args)
     {
-        Node node = new Node();
+        /*Node node = new Node();
 
         DataHandler dataHandler = new DataHandler();
         //dataHandler.getHash(new File());
@@ -25,6 +25,10 @@ public class Main
             System.out.println("Main: server started");
         } catch (UnknownHostException ex) {
             ExceptionHandler.handleException(ex);
-        }
+        }*/
+
+        LoginWindow.launchWindow(null);
+        //AppWindow2 window2 = new AppWindow2();
+        //window2.start(args);
     }
 }

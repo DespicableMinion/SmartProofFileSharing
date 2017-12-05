@@ -11,9 +11,11 @@ import java.net.InetAddress;
 import java.net.Socket;
 
 import static App.Logic.Action.Type.*;
-import java.util.List;
 
 
+/**
+ * Executes logic behind GUI operations
+ * */
 public class Client extends Thread {
     InetAddress serverIP;
     int serverPort;
@@ -30,20 +32,14 @@ public class Client extends Thread {
         this.serverPort = serverPort;
         this.username = username; //TODO:use it
 
-        System.out.println("Client: before socket creation");
         try {
             this.socket = new Socket(serverIP, serverPort);
-            System.out.println("Client: before outToServer creation");
             this.outToServer = new ObjectOutputStream(socket.getOutputStream());
-
-            System.out.println("Client: after outToServer creation");
         } catch (IOException ex) {
             ExceptionHandler.handleException(ex);
         }
 
-        System.out.println("Client: before AppWindow creation");
         this.appWindow = new AppWindow(this);
-        System.out.println("Client Created");
     }
 
     /**
@@ -90,7 +86,7 @@ public class Client extends Thread {
     }
 
     /**
-     * This fun
+     * This function catches messages sent by Server to Client
      * */
     public void run() {
         while(true) {
@@ -126,7 +122,7 @@ public class Client extends Thread {
 
         @Override
         public void run() {
-            //TODO
+            //TODO appWindow.
         }
     }
 
